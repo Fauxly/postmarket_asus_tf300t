@@ -1,0 +1,62 @@
+
+
+pkgname=linux-asus-tf300t
+pkgver=5.11.0_rc3
+pkgrel=0
+arch="armv7"
+pkgdesc="Asus Transformer Pad TF300T mainline kernel"
+url="https://postmarketos.org"
+makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev
+	     devicepkg-dev bison flex openssl-dev xz findutils"
+options="!strip !check !tracedeps pmb:cross-native"
+license="GPL-2.0-only"
+
+# Source
+_flavor="asus-tf300t"
+_repository="linux"
+_commit="3f0c4c75826bb4bc622e949af722282c36cf31b5"
+_config="config-$_flavor.$arch"
+_carch="arm"
+_ksrcdir="$srcdir/linux-$_commit"
+source="
+	$pkgname-$pkgver-$_commit.tar.gz::https://github.com/Fauxly/$_repository/archive/$_commit.tar.gz
+	$_config
+	"
+
+prepare() {
+	mkdir -p "$srcdir"/build
+	cp -v "$srcdir"/$_config "$srcdir"/build/.config
+	make -C "$_ksrcdir" O="$srcdir"/build ARCH="$_carch" \
+		olddefconfig
+}
+
+build() {
+	cd "$srcdir"/build
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-Alpine"
+}
+
+package() {
+	install -Dm644 "$srcdir/build/arch/$_carch/boot/"*zImage \
+		"$pkgdir/boot/vmlinuz-$_flavor"
+
+	install -D "$srcdir/build/include/config/kernel.release" \
+		"$pkgdir/usr/share/kernel/$_flavor/kernel.release"
+
+	cd "$srcdir"/build
+
+	local _install
+	case "$CARCH" in
+	aarch64*|arm*)	_install="modules_install dtbs_install" ;;
+	*)		_install="modules_install" ;;
+	esac
+
+	make -j1 $_install \
+		ARCH="$_carch" \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_DTBS_PATH="$pkgdir/usr/share/dtb"
+}
+
+sha512sums="7d9d7f0a221f0eb2391f2c3c2bedc85af0cc9c779f687491a70a1ad163c2c9bcbc5ca19fe5af519bca7d714f2eee97104471710c8ec110510cee71b13695c78e  linux-asus-tf300t-5.11.0_rc3-3f0c4c75826bb4bc622e949af722282c36cf31b5.tar.gz
+ad2f2ebaa5e1eb277a1a572fa045f94787edbd8da6144d9ae941623f7f6a99b36047f479fa89f2456d8693403f2bda3e6a0cec4c7ad73e8e8c7c90351ce8fd32  config-asus-tf300t.armv7"

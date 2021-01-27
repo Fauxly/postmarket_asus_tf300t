@@ -1,0 +1,49 @@
+
+
+pkgname=device-asus-tf300t
+pkgdesc="Asus Transformer Pad TF300T"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+depends="postmarketos-base linux-asus-tf300t mkbootimg mesa-dri-gallium mkbootimg alsa-ucm-conf asus-transformer-blobtools xf86-video-opentegra"
+makedepends="devicepkg-dev"
+subpackages="$pkgname-phosh
+			$pkgname-nonfree-firmware:nonfree_firmware"
+source="deviceinfo
+		rootston.ini
+		ucm/TF300T_WM8903.conf
+		ucm/HiFi.conf"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+
+	# Alsa usecase manager config
+	install -D -m644 "$srcdir"/"TF300T_WM8903.conf" \
+		"$pkgdir"/usr/share/alsa/ucm2/TF300T_WM8903/TF300T_WM8903.conf
+	install -D -m644 "$srcdir"/HiFi.conf \
+		"$pkgdir"/usr/share/alsa/ucm2/TF300T_WM8903/HiFi.conf
+}
+
+phosh() {
+	install_if="$pkgname postmarketos-ui-phosh"
+	install -Dm644 "$srcdir"/rootston.ini \
+		"$subpkgdir"/etc/phosh/rootston.ini
+}
+
+nonfree_firmware() {
+	pkgdesc="Asus Transformer Pad TF300T WiFi & BT firmware"
+	depends="firmware-asus-tf300t"
+	mkdir "$subpkgdir"
+}
+
+sha512sums="490535a16ce961ca008fa824dde89485166c5bb8d34e9159ad2b8778fa6b1ccfd3eefb1acb27981ac1db2f4c2dd8b958338efe57a73f2c3ab8ecac4691cb82da  deviceinfo
+6ec993e278d2a73c72fb96f001716ded63543d99183847d22d172cd81ac410791c79370ecf391d0c24822c975d91b84dc1db296e1b28dbf66d5c227bff8d4011  rootston.ini
+3002f2c53929af9faea2d32402e4d96833f6a832252f83b83f3d29bb37deacc926df21999b52eebb4bf035b0b0bd417d8ba67ca78e414335fb03ff2e497e912b  TF300T_WM8903.conf
+ab2411fcea85c7634fa8a09ecad03188c15981c3e76532b1800218fd8cc018f9e424e5b36de9a170b711fcca304ac1a3345422723738f64f5980062f7518e5df  HiFi.conf"

@@ -1,0 +1,30 @@
+
+
+pkgname=firmware-asus-tf300t
+pkgver=1
+pkgrel=1
+pkgdesc="Firmware for Transformer Prime (asus-tf300t)"
+url="https://github.com/clamor95/linux-firmware"
+arch="armv7"
+license="custom:proprietary"
+options="!check !strip !archcheck !spdx"
+source="BCM4329B1_002.002.023.0797.0879.hcd
+	brcmfmac4329-sdio.asus,tf300t.txt
+	brcmfmac4329-sdio.bin"
+
+package() {
+	# Bluetooth
+	install -D -m644 "$srcdir"/BCM4329B1_002.002.023.0797.0879.hcd \
+		"$pkgdir"/lib/firmware/postmarketos/brcm/BCM4329B1.hcd
+
+	# Wi-Fi
+	install -D -m644 "$srcdir"/brcmfmac4329-sdio.bin \
+		"$pkgdir"/lib/firmware/postmarketos/brcm/brcmfmac4329-sdio.bin
+
+	install -D -m644 "$srcdir"/brcmfmac4329-sdio.asus,tf300t.txt \
+		"$pkgdir"/lib/firmware/postmarketos/brcm/brcmfmac4329-sdio.asus,tf300t.txt
+}
+
+sha512sums="26534cbef298d7594ed6d8a58380ed3b1593a195aaa2c9e5108dce82dbaec4da922f49217342397d405131d827873dca1c78ab2e73c4bae0901b2c77ff56f9b2  BCM4329B1_002.002.023.0797.0879.hcd
+d43d4790d06ea5c99676a496670e39f5b49bbb336a4b062f1ad8f531e677b3f582abefe00e26453ea8f02e5dc19e5330bf0ab57fc391ecb38928aa185c3431ad  brcmfmac4329-sdio.asus,tf300t.txt
+6461661f837072f40ed262b4c777846e9dd1f1ad4913b92ddc2c8fd7db4bcba791da7aedb0d716f6dbb61d26438463f53a9df6795df229059d17ada9213af3f3  brcmfmac4329-sdio.bin"
