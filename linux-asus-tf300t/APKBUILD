@@ -14,12 +14,12 @@ license="GPL-2.0-only"
 # Source
 _flavor="asus-tf300t"
 _repository="linux"
-_commit="3f0c4c75826bb4bc622e949af722282c36cf31b5"
+_commit="fdf7fc01a94017493b10050d540721b2d31f63c3"
 _config="config-$_flavor.$arch"
 _carch="arm"
 _ksrcdir="$srcdir/linux-$_commit"
 source="
-	$pkgname-$pkgver-$_commit.tar.gz::https://github.com/Fauxly/$_repository/archive/$_commit.tar.gz
+	$pkgname-$pkgver-$_commit.tar.gz::https://github.com/clamor95/$_repository/archive/$_commit.tar.gz
 	$_config
 	"
 
