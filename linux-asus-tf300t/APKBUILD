@@ -14,12 +14,12 @@ license="GPL-2.0-only"
 # Source
 _flavor="asus-tf300t"
 _repository="linux"
-_commit="fdf7fc01a94017493b10050d540721b2d31f63c3"
+_commit="114dd14b63758009bc17a057da79be411e7801c5"
 _config="config-$_flavor.$arch"
 _carch="arm"
 _ksrcdir="$srcdir/linux-$_commit"
 source="
-	$pkgname-$pkgver-$_commit.tar.gz::https://github.com/clamor95/$_repository/archive/$_commit.tar.gz
+	$pkgname-$pkgver-$_commit.tar.gz::https://github.com/grate-driver/$_repository/archive/$_commit.tar.gz
 	$_config
 	"
 
@@ -58,5 +58,5 @@ package() {
 		INSTALL_DTBS_PATH="$pkgdir/usr/share/dtb"
 }
 
-sha512sums="7d9d7f0a221f0eb2391f2c3c2bedc85af0cc9c779f687491a70a1ad163c2c9bcbc5ca19fe5af519bca7d714f2eee97104471710c8ec110510cee71b13695c78e  linux-asus-tf300t-5.11.0_rc3-3f0c4c75826bb4bc622e949af722282c36cf31b5.tar.gz
-ad2f2ebaa5e1eb277a1a572fa045f94787edbd8da6144d9ae941623f7f6a99b36047f479fa89f2456d8693403f2bda3e6a0cec4c7ad73e8e8c7c90351ce8fd32  config-asus-tf300t.armv7"
+sha512sums="5824b68bc7f2f7cb805c70092432a11baf0830d24999d08f91c82c7b93a2c1408264fc7c3d41f7ce87bd96bbc136866c1e049b7c8793246961ba6b1c78b282ec  linux-asus-tf300t-5.11.0_rc3-114dd14b63758009bc17a057da79be411e7801c5.tar.gz
+aa12e45a63f794d5811408daca322d1c4d9b9de53300d8c79eb25d60e93fb3cdd81dd5da2a159131fc8b215056a36339ed4dd46b304aba331ca6a41320a93ccb  config-asus-tf300t.armv7"
