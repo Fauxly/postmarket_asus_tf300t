@@ -13,9 +13,11 @@ makedepends="devicepkg-dev"
 subpackages="$pkgname-phosh
 			$pkgname-nonfree-firmware:nonfree_firmware"
 source="deviceinfo
-		rootston.ini
-		ucm/TF300T_WM8903.conf
-		ucm/HiFi.conf"
+	rootston.ini
+	ucm/tegra-hda.conf
+	ucm/tegra-hda-HiFi.conf
+	ucm/TF300T_WM8903.conf
+	ucm/TF300T_WM8903-HiFi.conf"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -25,10 +27,14 @@ package() {
 	devicepkg_package $startdir $pkgname
 
 	# Alsa usecase manager config
-	install -D -m644 "$srcdir"/"TF300T_WM8903.conf" \
+	install -D -m644 "$srcdir"/TF300T_WM8903.conf \
 		"$pkgdir"/usr/share/alsa/ucm2/TF300T_WM8903/TF300T_WM8903.conf
-	install -D -m644 "$srcdir"/HiFi.conf \
+	install -D -m644 "$srcdir"/TF300T_WM8903-HiFi.conf \
 		"$pkgdir"/usr/share/alsa/ucm2/TF300T_WM8903/HiFi.conf
+	install -D -m644 "$srcdir"/tegra-hda.conf \
+		"$pkgdir"/usr/share/alsa/ucm2/tegra-hda/tegra-hda.conf
+	install -D -m644 "$srcdir"/tegra-hda-HiFi.conf \
+		"$pkgdir"/usr/share/alsa/ucm2/tegra-hda/HiFi.conf
 }
 
 phosh() {
